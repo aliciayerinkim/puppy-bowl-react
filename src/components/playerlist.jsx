@@ -1,18 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { fetchAllPlayers, fetchSinglePlayer, removePlayer } from './api';
+import React from 'react';
+import { fetchSinglePlayer, removePlayer } from './api';
 import PlayerCard from './playercard';
 
-const PlayerList = () => {
-  const [players, setPlayers] = useState([]);
-
-  useEffect(() => {
-    const loadPlayers = async () => {
-      const loadedPlayers = await fetchAllPlayers();
-      setPlayers(loadedPlayers);
-    };
-    loadPlayers();
-  }, []);
-
+const PlayerList = ({ players, onRefresh }) => {
   const handleDetails = async (playerId) => {
     const player = await fetchSinglePlayer(playerId);
     alert(JSON.stringify(player));
@@ -20,7 +10,7 @@ const PlayerList = () => {
 
   const handleRemove = async (playerId) => {
     await removePlayer(playerId);
-    setPlayers(await fetchAllPlayers());
+    onRefresh(); 
   };
 
   return (
