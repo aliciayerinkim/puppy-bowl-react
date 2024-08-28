@@ -1,13 +1,11 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import PlayerList from './components/playerlist';
 
-function App() {
+const App = () => (
+  <div className="App">
+    <h1>Puppy Bowl Roster</h1>
+    <PlayerList />
+  </div>
+);
 
-  return (
-    <>
-      
-    </>
-  )
-}
-
-export default App
+export default App;
