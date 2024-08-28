@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PlayerList from './components/playerlist';
 import NewPlayerForm from './components/newplayerform';
+import PlayerDetails from './components/playerdetails';
 import { fetchAllPlayers } from './components/api';
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
   };
 
   const filterPlayers = () => {
-    const filtered = players.filter(player => 
+    const filtered = players.filter(player =>
       player.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredPlayers(filtered);
@@ -33,29 +35,28 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1 style={{ textAlign: 'center', width: '100%' }}>Puppy Bowl Roster</h1>
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        <h2>Search Puppy</h2>
-        <input
-          type="text"
-          placeholder="Search Players"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          style={{
-            padding: '10px',
-            marginBottom: '20px',
-            width: '100%',
-            maxWidth: '300px'
-          }}
-        />
+    <Router>
+      <div style={{ textAlign: 'center' }}>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <h1>Puppy Bowl Roster</h1>
+              <h2>Search Puppy</h2>
+              <input
+                type="text"
+                placeholder="Search Players"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />            
+              <h2>Add Puppy</h2>
+              <NewPlayerForm onPlayerAdded={loadPlayers} />
+              <PlayerList players={filteredPlayers} onRefresh={loadPlayers} />
+            </>
+          } />
+          <Route path="/player/:id" element={<PlayerDetails />} />
+        </Routes>
       </div>
-      <div style={{ textAlign: 'center', width: '100%' }}>
-        <h2>Add Puppy</h2>
-        <NewPlayerForm onPlayerAdded={loadPlayers} />
-      </div>
-      <PlayerList players={filteredPlayers} onRefresh={loadPlayers} />
-    </div>
+    </Router>
   );
 }
 

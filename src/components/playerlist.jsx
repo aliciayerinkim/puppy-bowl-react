@@ -1,12 +1,9 @@
 import React from 'react';
-import { fetchSinglePlayer, removePlayer } from './api';
+import { removePlayer } from './api';
 import PlayerCard from './playercard';
 
+
 const PlayerList = ({ players, onRefresh }) => {
-  const handleDetails = async (playerId) => {
-    const player = await fetchSinglePlayer(playerId);
-    alert(JSON.stringify(player));
-  };
 
   const handleRemove = async (playerId) => {
     await removePlayer(playerId);
@@ -14,15 +11,13 @@ const PlayerList = ({ players, onRefresh }) => {
   };
 
   return (
-    <main style={{
-      display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center'
-    }}>
+    <div className="main">
       {players.length === 0 ? <p>No players available.</p> : (
         players.map(player => (
-          <PlayerCard key={player.id} player={player} onDetails={handleDetails} onRemove={handleRemove} />
+          <PlayerCard key={player.id} player={player} onRemove={handleRemove} />
         ))
       )}
-    </main>
+    </div>
   );
 }
 

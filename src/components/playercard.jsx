@@ -1,21 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const PlayerCard = ({ player, onDetails, onRemove }) => (
-  <div style={{
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px gray',
-    padding: '15px',
-    textAlign: 'center',
-    width: '250px'
-  }}>
+const PlayerCard = ({ player, onRemove }) => (
+  <div className="playerCard">
     <h2>{player.name}</h2>
     <img src={player.imageUrl} alt={player.name} style={{
       maxWidth: '100%',
       borderRadius: '8px'
     }}/>
     <p>ID: {player.id}</p>
-    <button style={{ backgroundColor: 'blue', color: 'white', margin: '5px' }} onClick={() => onDetails(player.id)}>See details</button>
-    <button style={{ backgroundColor: 'blue', color: 'white', margin: '5px' }} onClick={() => onRemove(player.id)}>Remove from roster</button>
+    <Link to={`/player/${player.id}`}>
+        <button>See details</button>
+    </Link>
+    <button onClick={() => onRemove(player.id)}>Remove from roster</button>
   </div>
 );
 
